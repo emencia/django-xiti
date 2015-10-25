@@ -1,0 +1,27 @@
+{% load assets %}{% if xtsite and xiti_serverid %}
+<script type="text/javascript">
+    //<![CDATA[
+    xtnv = document;{% comment %}parent.document or top.document or document{% endcomment %}
+    {% if request.is_secure and xiti_serverid_secure %}xtsd="https://{{ xiti_serverid_secure }}";{% else %}xtsd="http://{{ xiti_serverid }}";{% endif %}
+    xtsite = "{{ xtsite }}"; {% comment %}Xiti site ID{% endcomment %}
+    xtn2 = "{{ xtn2 }}";{% comment %}level 2 site ID{% endcomment %}
+    xtpage = "{{ xtpage|urlencode }}";{% comment %}page name (with the use of :: to create chapters){% endcomment %}
+    xtdi = "{{ xtdi }}";{% comment %}implication degree{% endcomment %}
+    xt_multc = "{{ xt_multc }}";{% comment %}all the xi indicators (like "&x1=...&x2=....&x3=..."){% endcomment %}
+    xt_an = "{{ xt_an }}";{% comment %}user ID{% endcomment %}
+    xt_ac = "{{ xt_ac }}";{% comment %}category ID{% endcomment %}
+    if (window.xtparam!=null){window.xtparam+="&ac="+xt_ac+"&an="+xt_an+xt_multc;}
+    else{window.xtparam="&ac="+xt_ac+"&an="+xt_an+xt_multc;};
+    //]]>
+</script>
+
+{% include "xiti/include_js.html" %}
+
+<noscript>
+    {% if request.is_secure and xiti_serverid_secure %}
+        <img width="1" height="1" alt="" src="https://{{ xiti_serverid_secure }}.xiti.com/hit.xiti?s={{ xtsite }}&amp;s2={{ xtn2 }}&amp;p={{ xtpage|urlencode }}&amp;di={{ xtdi }}&amp;an={{ xt_an }}&amp;ac={{ xt_ac }}">
+    {% else %}
+        <img width="1" height="1" alt="" src="http://{{ xiti_serverid }}.xiti.com/hit.xiti?s={{ xtsite }}&amp;s2={{ xtn2 }}&amp;p={{ xtpage|urlencode }}&amp;di={{ xtdi }}&amp;an={{ xt_an }}&amp;ac={{ xt_ac }}">
+    {% endif %}
+</noscript>
+{% endif %}
