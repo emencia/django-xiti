@@ -16,19 +16,20 @@ class XitiSettingsError(Exception):
 def xiti_code(context):
     """
     Tag code to load Xiti required HTML into your template
-    
+
     Usage: ::
-    
+
         {% load xiti_tags %}
         {% xiti_code %}
     """
     if not hasattr(settings, 'XITI_CONF'):
         raise XitiSettingsError("'XITI_CONF' is not defined in your settings")
-    
+
     config = getattr(settings, 'XITI_CONF', {})
-    
+
     if not config.get('xtsite', None) or not config.get('xiti_serverid', None):
         raise XitiSettingsError("'xtsite' and 'xiti_serverid' are required values in your 'settings.XITI_CONF'")
-    
-    return config
 
+    config = config.copy()
+    config['request'] = context['request']
+    return config
