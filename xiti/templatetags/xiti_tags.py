@@ -30,6 +30,7 @@ def xiti_code(context):
     if not config.get('xtsite', None) or not config.get('xiti_serverid', None):
         raise XitiSettingsError("'xtsite' and 'xiti_serverid' are required values in your 'settings.XITI_CONF'")
 
+    # Pass request object to template tag context
     config = config.copy()
     config['request'] = context['request']
     return config
